@@ -450,83 +450,11 @@ nmap --script=ssl-* -p 443 192.168.1.1
 nmap --script=*-rce* 192.168.1.1
 ```
 
-## 1.5. Phương pháp tiếp cận hệ thống trong OSCP+
-
-Trong OSCP+, phương pháp tiếp cận hệ thống và tổ chức kết quả là rất quan trọng. Dưới đây là một framework phương pháp luận hiệu quả:
-
-### 1.5.1. Tổ Chức Quy Trình Quét
-
-```
-1. Host Discovery - xác định các hosts đang hoạt động
-2. Port Scanning - xác định các cổng mở trên mỗi host
-3. Service Enumeration - xác định và phân tích từng service
-4. Vulnerability Assessment - tìm kiếm lỗ hổng trong services
-5. Information Gathering - thu thập thông tin từ các services
-6. Documentation - tài liệu hóa tất cả phát hiện và kết quả
-```
-
-### 1.5.2. Chiến lược Quét Hiệu Quả
-
-```
-1. Begin Wide, Go Deep
-   - Bắt đầu với quét rộng (toàn bộ network)
-   - Xác định targets hấp dẫn
-   - Quét sâu vào các targets cụ thể
-
-2. Prioritize Based on Value
-   - Tập trung vào các services có giá trị cao (web servers, databases)
-   - Ưu tiên các services thường có lỗ hổng (SMB, FTP, etc.)
-
-3. Automate + Manual Verification
-   - Sử dụng công cụ tự động để quét ban đầu
-   - Xác minh thủ công tất cả các phát hiện
-   - Đào sâu vào các dịch vụ thú vị
-```
-
-### 1.5.3. Tài liệu hóa cho OSCP+
-
-```markdown
-# Tài liệu mẫu cho OSCP+
-
-## Target Information
-- IP: 192.168.1.1
-- Hostname: server1.example.com
-- OS: Windows Server 2016
-
-## Open Ports/Services
-| Port | Service | Version | Notes |
-|------|---------|---------|-------|
-| 22   | SSH     | OpenSSH 7.6p1 | Password authentication enabled |
-| 80   | HTTP    | Apache 2.4.29 | WordPress 5.2.3 |
-| 445  | SMB     | SMBv1 enabled | MS17-010 vulnerable |
-
-## Enumeration Notes
-### Web Service (Port 80)
-- WordPress 5.2.3 detected
-- Users enumerated: admin, editor
-- Vulnerable plugins: wp-file-manager v6.7
-
-### SMB Service (Port 445)
-- Anonymous access enabled
-- Shares: public, backup
-- Interesting files found: passwords.txt in backup share
-
-## Vulnerability Assessment
-- WordPress vulnerable to CVE-2020-XXXX
-- SMB server vulnerable to MS17-010 (EternalBlue)
-
-## Potential Attack Vectors
-1. WordPress exploit using CVE-2020-XXXX
-2. Brute force WordPress admin login
-3. EternalBlue exploit on SMB
-4. Access sensitive files in SMB shares
-```
-
-## 1.6. Công cụ tổng hợp và tự động hóa
+## 1.5. Công cụ tổng hợp và tự động hóa
 
 Các công cụ tự động hóa giúp tăng hiệu quả quá trình recon.
 
-### 1.6.1. AutoRecon
+### 1.5.1. AutoRecon
 
 ```bash
 # Cài đặt
@@ -543,7 +471,7 @@ python3 AutoRecon/autorecon.py 192.168.1.1 192.168.1.2 192.168.1.3
 python3 AutoRecon/autorecon.py -t targets.txt
 ```
 
-### 1.6.2. Reconnoitre
+### 1.5.2. Reconnoitre
 
 ```bash
 # Cài đặt
@@ -557,7 +485,7 @@ reconnoitre -t 192.168.1.0/24 -o output_directory --services
 reconnoitre -t 192.168.1.1 -o output_directory --services
 ```
 
-### 1.6.3. Sn1per
+### 1.5.3. Sn1per
 
 ```bash
 # Cài đặt
@@ -575,7 +503,7 @@ sniper -t 192.168.1.0/24 -m discover
 
 Những công cụ sau đây đặc biệt hữu ích cho OSCP+:
 
-### 1.7.1. Tmux và Script Terminals
+### 1.5.1. Tmux và Script Terminals
 
 ```bash
 # Cài đặt
@@ -591,7 +519,7 @@ script -a session.log
 # Ctrl+b o    Switch panes
 ```
 
-### 1.7.2. Custom Bash Scripts
+### 1.5.2. Custom Bash Scripts
 
 Tạo script bash để tự động hóa các tác vụ thường xuyên:
 

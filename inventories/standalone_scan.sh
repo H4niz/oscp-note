@@ -19,7 +19,7 @@ echo "[+] Starting advanced reconnaissance on $TARGET. Results will be saved to 
 # Kiểm tra các công cụ bắt buộc
 check_tools() {
     local missing=0
-    local tools=("nmap" "nikto" "gobuster" "whatweb" "wpscan" "nuclei" "dirsearch" "smbmap" "enum4linux" "onesixtyone" "ffuf" "feroxbuster")
+    local tools=("nmap" "nikto" "gobuster" "whatweb" "wpscan" "nuclei" "dirsearch" "smbmap" "enum4linux" "onesixtyone" "feroxbuster")
     
     echo "[*] Checking required tools..."
     for tool in "${tools[@]}"; do
@@ -35,7 +35,6 @@ check_tools() {
         echo "[*] For nuclei: go install -v github.com/projectdiscovery/nuclei/v2/cmd/nuclei@latest"
         echo "[*] For dirsearch: git clone https://github.com/maurosoria/dirsearch.git"
         echo "[*] For feroxbuster: apt install feroxbuster or cargo install feroxbuster"
-        echo "[*] For ffuf: go install github.com/ffuf/ffuf/v2@latest"
         exit 1
     fi
     
@@ -278,22 +277,6 @@ recursive_directory_scan() {
                    --silent
     else
         echo "[-] feroxbuster not found, using alternative tools..."
-    fi
-    
-    # 2. Sử dụng ffuf như là một lựa chọn thay thế
-    if command -v ffuf &> /dev/null; then
-        echo "[+] Using ffuf for recursive scanning..."
-        
-        # Quét ban đầu để tìm các thư mục
-        ffuf -u $url/FUZZ \
-             -w $wordlist \
-             -t $THREADS \
-             -e .php,.asp,.aspx,.jsp,.html,.txt,.old,.bak \
-             -recursion \
-             -recursion-depth $depth \
-             -v \
-             -of html -o "$output_dir/ffuf_recursive.html" \
-             -of json -o "$output_dir/ffuf_recursive.json"
     fi
     
     # 3. Sử dụng gobuster để quét với nhiều extensions
