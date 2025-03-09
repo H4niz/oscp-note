@@ -45,7 +45,7 @@ param(
     ),
     
     # File xuất kết quả với timestamp
-    [string]$OutputFile = "$env:TEMP\CredScan_$(Get-Date -Format 'yyyyMMdd_HHmmss').txt",
+    [string]$OutputFile = "$env:USERPROFILE\CredScan_$(Get-Date -Format 'yyyyMMdd_HHmmss').txt",
     
     # Quét Registry
     [switch]$IncludeRegistry = $true,
